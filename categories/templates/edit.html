@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block name %} Edit Category - ECommerce {% endblock %}
+{% block content %}
+
+<div class="row mt-5">
+  <div class="col col-4 offset-4">
+    <h2 class="text-center">Edit Category</h2>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col col-4 offset-4">
+    <form action="/categories/edit/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ category.id }}">
+      <div class="row mb-3">
+        <div class="col">
+          <label for="name" class="form-label">Name</label>
+          <input
+            autofocus
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            value="{{ category.name }}"
+            placeholder="Enter name here"
+          />
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col text-center">
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
