@@ -40,7 +40,6 @@ def edit(request: HttpRequest) -> HttpResponse:
     except Category.DoesNotExist:
         return HttpResponse("Category not found")
 
-
 def delete(request: HttpRequest) -> HttpResponse:
     try:
         id = request.GET['id']
