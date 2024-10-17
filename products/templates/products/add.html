@@ -1,0 +1,79 @@
+{% extends "base.html" %} 
+{% block name %} Add Product - ECommerce {% endblock %} 
+{% block content %}
+
+<div class="row mt-5">
+  <div class="col col-4 offset-4">
+    <h2 class="text-center">Add Product</h2>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col col-4 offset-4">
+    <form action="/products/add/" method="post">
+      {% csrf_token %}
+      <div class="row mb-3">
+        <div class="col">
+          <label for="name" class="form-label">Name</label>
+          <input
+            required
+            autofocus
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="Enter name here"
+          />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label for="price" class="form-label">Price</label>
+          <input
+            required
+            type="number"
+            class="form-control"
+            id="price"
+            name="price"
+            placeholder="Enter price here"
+          />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label for="stock" class="form-label">Stock</label>
+          <input
+            required
+            type="number"
+            class="form-control"
+            id="stock"
+            name="stock"
+            placeholder="Enter stock here"
+          />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <label for="category" class="form-label">Category</label>
+          <select
+            required
+            type="text"
+            class="form-select"
+            id="category"
+            name="category"
+          >
+            {% for category in categories %}
+              <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col text-center">
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
