@@ -1,80 +1,182 @@
 {% extends "base.html" %}
-{% block name %} Edit Product - ECommerce {% endblock %}
+{% load static %}
+{% block name %} Edit Product - ECommerce {% endblock %} 
 {% block content %}
 
-<div class="row mt-5">
-  <div class="col col-4 offset-4">
-    <h2 class="text-center">Edit Product</h2>
+<form enctype="multipart/form-data" action="/products/edit/" method="post">
+  {% csrf_token %}
+  <div class="row my-5">
+    <div class="col">
+      <h1 class="text-center">Edit Product</h1>
+    </div>
   </div>
-</div>
-<div class="row mt-4">
-  <div class="col col-4 offset-4">
-    <form action="/products/edit/" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="id" value="{{ product.id }}">
-      <div class="row mb-3">
-        <div class="col">
-          <label for="name" class="form-label">Name</label>
-          <input required
-            autofocus
-            type="text"
-            class="form-control"
-            id="name"
-            name="name"
-            placeholder="Enter name here"
-            value="{{ product.name }}"
-          />
+  <div class="row mt-5">
+    <div class="col col-4 offset-2">
+      <div class="card shadow-lg p-4">
+        <div class="card-body add-form">
+          <input type="hidden" name="id" value="{{ product.id }}">
+            <div class="row mb-3">
+              <div class="col">
+                <label for="name" class="form-label">Name</label>
+                <input required
+                  autofocus
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  placeholder="Enter name here"
+                  value="{{ product.name }}"
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="price" class="form-label">Price</label>
+                <input required
+                  type="number"
+                  class="form-control"
+                  id="price"
+                  name="price"
+                  placeholder="Enter price here"
+                  value="{{ product.price }}"
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="stock" class="form-label">Stock</label>
+                <input required
+                  type="number"
+                  class="form-control"
+                  id="stock"
+                  name="stock"
+                  placeholder="Enter stock here"
+                  value="{{ product.availableQuantity }}"
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="category" class="form-label">Category</label>
+                <select
+                  required
+                  type="text"
+                  class="form-select"
+                  id="category"
+                  name="category"
+                >
+                  {% for category in categories %}
+                    <option {% if product.category.id == category.id %} selected {% endif %} value="{{ category.id }}">{{ category.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col">
-          <label for="price" class="form-label">Price</label>
-          <input required
-            type="number"
-            class="form-control"
-            id="price"
-            name="price"
-            placeholder="Enter price here"
-            value="{{ product.price }}"
-          />
+    </div>
+    <div class="col col-4 offset">
+      <div class="card shadow-lg p-4">
+        <div class="card-body edit-form">
+          <div class="row">
+            <div class="col">
+              <h4>Product Images</h4>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col">
+              {% comment %} <div class="row">
+                <div class="col text-center">
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic example"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="triggerImage1Select()"
+                    >
+                      Select Image 1
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      onclick="clearImage1()"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  <input
+                    accept="image/jpeg, image/png"
+                    type="file" 
+                    hidden
+                    name="image1"
+                    id="image1"
+                    onchange="image1Selected(event)"
+                  />
+                </div>
+                <div class="col text-center">
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic example"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="triggerImage2Select()"
+                    >
+                      Select Image 2
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      onclick="clearImage2()"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  <input
+                    accept="image/jpeg, image/png"
+                    type="file" 
+                    hidden
+                    name="image2"
+                    id="image2"
+                    onchange="image2Selected(event)"
+                  />
+                </div>
+              </div> {% endcomment %}
+              <div class="row mt-5">
+                <div class="col">
+                  <img
+                    id="image1-preview"
+                    class="border-image"
+                    src="/uploads/product-images/{{ productImages.0.fileName }}"
+                    alt=""
+                  />
+                </div>
+                <div class="col">
+                  <div class="col">
+                    <img
+                      id="image2-preview"
+                      class="border-image"
+                      src="/uploads/product-images/{{ productImages.1.fileName }}"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col">
-          <label for="stock" class="form-label">Stock</label>
-          <input required
-            type="number"
-            class="form-control"
-            id="stock"
-            name="stock"
-            placeholder="Enter stock here"
-            value="{{ product.availableQuantity }}"
-          />
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col">
-          <label for="category" class="form-label">Category</label>
-          <select
-            required
-            type="text"
-            class="form-select"
-            id="category"
-            name="category"
-          >
-            {% for category in categories %}
-              <option {% if product.category.id == category.id %} selected {% endif %} value="{{ category.id }}">{{ category.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col text-center">
-          <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-      </div>
-    </form>
+    </div>
   </div>
-</div>
+  <div class="row mt-5">
+    <div class="col col-8 offset-2 text-center">
+      <button type="submit" class="btn btn-success btn-lg w-100">Submit</button>
+    </div>
+  </div>
+</form>
 
 {% endblock content %}

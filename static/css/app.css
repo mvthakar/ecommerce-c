@@ -1,3 +1,11 @@
 .table-list td {
     vertical-align: middle;
 }
+
+.add-form {
+    min-height: 28rem;
+}
+
+.border-image {
+    max-width: 100%;
+}
